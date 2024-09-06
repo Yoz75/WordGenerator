@@ -1,5 +1,5 @@
 # How to use:
-You can simply ran .exe file and write text without other options:
+You can simply run .exe file and write text without other options:
 ![Снимок экрана 2024-09-06 220651](https://github.com/user-attachments/assets/844333c8-cb03-443e-8380-d99dc514f350)
 
 Or you can use app arguments:
