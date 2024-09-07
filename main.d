@@ -24,6 +24,7 @@ void main(string[] args)
 		public immutable string TokensGenerate = "tg=";
 		public immutable string TokensNext = "tn=";
 		public immutable string TokensRandomChance = "tr=";
+		public immutable string FunRecreationsCount = "fr=";
 	}
 	SetConsoleOutputCP(65001);
 
@@ -31,6 +32,7 @@ void main(string[] args)
 	size_t tokenSize = 5;
 	size_t tokensCount = 250;
 	size_t nextTokens = 2;
+	size_t funRecreationsCount = 0;
 	ubyte randomTokenChance = 5;
 
 	WGString input;
@@ -79,7 +81,10 @@ void main(string[] args)
 			{
 				randomTokenChance = to!(ubyte)(arg[Arguments.TokenSize.length..$]);
 			}
-
+			if(arg.startsWith(Arguments.FunRecreationsCount))
+			{
+				funRecreationsCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
+			}
 		}
 	}
 
@@ -94,7 +99,20 @@ void main(string[] args)
 
 	TextGenerator generator = new TextGenerator();
 
-	WGString text = generator.Generate(settings);
+	WGString text;
+	if(funRecreationsCount > 0)
+	{
+		for(size_t i = 0; i < funRecreationsCount; i++)
+		{
+			text = generator.Generate(settings);
+			tokens = tokenizer.Tokenize(text, tokenSize);
+			settings.Tokens = tokens;
+		}
+	}
+	else
+	{
+		text = generator.Generate(settings);
+	}
 
 	writeln("====================================================================================");
 	writeln("result:\n");
