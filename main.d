@@ -25,7 +25,7 @@ void main(string[] args)
 		public immutable string TokensNext = "tn=";
 		public immutable string TokensRandomChance = "tr=";
 	}
-	//SetConsoleOutputCP(65001);
+	SetConsoleOutputCP(65001);
 
 	TextTokenizer tokenizer = new TextTokenizer();
 	size_t tokenSize = 5;
