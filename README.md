@@ -1,4 +1,7 @@
 # How to use:
+
+**Remember: as more text you give as input, as good result you will get**
+
 You can simply run .exe file and write text without other options:
 ![Снимок экрана 2024-09-06 220651](https://github.com/user-attachments/assets/844333c8-cb03-443e-8380-d99dc514f350)
 
