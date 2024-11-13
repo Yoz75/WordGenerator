@@ -10,8 +10,8 @@ Or you can use app arguments:
 
 ## Arguments 
 
-WordGenerator has this console arguments:
-source={file with extension}- read text from file. You can`t use other arguments without this.<br>
+WordGenerator has this console arguments:<br>
+source={file with extension}- read text from file. You can`t use other arguments without this one.<br>
 tg={number} - generate x tokens (tokens != symbols)<br>
 ts={number} - set token size to x symbols (tg=100 ts=2 will generate 200 symbols. Less values makes strange result, but too big values just copy parts of text)<br>
 tn={number} - set next tokens size to x tokens (less values gives repeating values like abrbrbrbbrbrbrbrbrbrbr...)<br>
