@@ -27,6 +27,7 @@ static:
 }
 
 void ReadInputFromConsole()
+void ReadInputFromConsole(ref WGString input)
 {
 	static if(is(WGString == string))
 	{
@@ -41,6 +42,7 @@ void ReadInputFromConsole()
 void main(string[] args)
 {
 	SetConsoleOutputCP(65001);
+	//SetConsoleOutputCP(65001);
 
 	ITextTokenizer tokenizer = new TextTokenizer();
 	size_t tokenSize = 5;
@@ -54,6 +56,7 @@ void main(string[] args)
 	if(args.length <= 1)
 	{	
 		 ReadInputFromConsole();
+		 ReadInputFromConsole(input);
 	}
 	else
 	{
