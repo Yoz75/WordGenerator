@@ -4,6 +4,7 @@ import std.algorithm;
 import std.file : read, getcwd;
 import std.conv : to;
 import generator.texttokenizer;
+import generator.itexttokenizer;
 import generator.generatorsettings;
 import generator.token;
 import generator.textgenerator;
@@ -14,21 +15,34 @@ extern(Windows)
 	bool SetConsoleOutputCP(uint wCodePageID);
 }
 
+final abstract class Arguments
+{
+static:
+	public immutable string ReadFileName = "source=";
+	public immutable string TokenSize = "ts=";
+	public immutable string TokensGenerate = "tg=";
+	public immutable string TokensNext = "tn=";
+	public immutable string TokensRandomChance = "tr=";
+	public immutable string FunRecreationsCount = "fr=";
+}
+
+void ReadInputFromConsole()
+{
+	static if(is(WGString == string))
+	{
+		input = cast(WGString)readln();
+	}
+	else
+	{
+		input = cast(WGString)readln();
+	}
+}
+
 void main(string[] args)
 {
-	final abstract class Arguments
-	{
-		static:
-		public immutable string ReadFileName = "source=";
-		public immutable string TokenSize = "ts=";
-		public immutable string TokensGenerate = "tg=";
-		public immutable string TokensNext = "tn=";
-		public immutable string TokensRandomChance = "tr=";
-		public immutable string FunRecreationsCount = "fr=";
-	}
 	SetConsoleOutputCP(65001);
 
-	TextTokenizer tokenizer = new TextTokenizer();
+	ITextTokenizer tokenizer = new TextTokenizer();
 	size_t tokenSize = 5;
 	size_t tokensCount = 250;
 	size_t nextTokens = 2;
@@ -36,18 +50,6 @@ void main(string[] args)
 	ubyte randomTokenChance = 5;
 
 	WGString input;
-
-	void ReadInputFromConsole()
-	{
-	    static if(is(WGString == string))
-		{
-			input = cast(WGString)readln();
-		}
-		else
-		{
-			input = cast(WGString)readln();
-		}
-	}
 
 	if(args.length <= 1)
 	{	
