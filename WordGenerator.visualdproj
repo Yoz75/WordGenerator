@@ -255,6 +255,8 @@
  <Folder name="WordGenerator">
   <Folder name="generator">
    <File path="generator\generatorsettings.d" />
+   <File path="generator\itexttokenizer.d" />
+   <File path="generator\randomtexttokenizer.d" />
    <File path="generator\textgenerator.d" />
    <File path="generator\texttokenizer.d" />
    <File path="generator\token.d" />

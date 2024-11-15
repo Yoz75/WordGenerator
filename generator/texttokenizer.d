@@ -2,6 +2,7 @@ module generator.texttokenizer;
 
 import generator.token;
 import generator.wgstring;
+import generator.itexttokenizer;
 import std.stdio;
 import std.array;
 import std.algorithm;
@@ -10,7 +11,7 @@ import std.range;
 import std.string;
 import std.container;
 
-class TextTokenizer
+class TextTokenizer : ITextTokenizer
 { 
 	public Token[] Tokenize(WGString input, size_t tokenValueSize)
 	{
@@ -22,7 +23,7 @@ class TextTokenizer
         {
             WGString tokenValue = input[i .. (i + tokenValueSize)];
         
-            Token token = new Token(" ");
+            Token token;
 
             if (tokensDict.get(tokenValue, null) !is null) 
             {
