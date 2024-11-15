@@ -3,6 +3,7 @@ import std.stdio;
 import std.algorithm;
 import std.file : read, getcwd;
 import std.conv : to;
+import std.utf;
 import generator.itexttokenizer;
 import generator.texttokenizer;
 import generator.randomtexttokenizer;
