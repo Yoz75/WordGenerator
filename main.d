@@ -30,14 +30,7 @@ static:
 
 WGString ReadInputFromConsole()
 {
-	static if(is(WGString == string))
-	{
-		return cast(WGString)readln();
-	}
-	else
-	{
-		return cast(WGString)readln();
-	}
+	return readln!WGString();
 }
 
 void main(string[] args)
@@ -53,73 +46,77 @@ void main(string[] args)
 
 	WGString input;
 
+	bool isShallReadFile = false;
+	string filename;
+
+	foreach(string arg; args)
+	{
+		if(arg.startsWith(Arguments.ReadFileName))
+		{
+			 isShallReadFile = true;
+			filename = getcwd() ~ '/' ~ arg[Arguments.ReadFileName.length..$];
+		}
+		
+		else if(arg.startsWith(Arguments.TokenSize))
+		{
+			tokenSize = to!(size_t)(arg[Arguments.TokenSize.length..$]);
+		}
+		
+		else if(arg.startsWith(Arguments.TokensGenerate))
+		{
+			tokensCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
+		}
+				
+		else if(arg.startsWith(Arguments.TokensNext))
+		{
+			nextTokens = to!(size_t)(arg[Arguments.TokenSize.length..$]);
+		}
+				else if(arg.startsWith(Arguments.TokensRandomChance))
+		{
+			randomTokenChance = to!(ubyte)(arg[Arguments.TokenSize.length..$]);
+		}
+		else if(arg.startsWith(Arguments.FunRecreationsCount))
+		{
+			funRecreationsCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
+		}
+		if(arg.startsWith(Arguments.TokenRandomSizes))
+		{
+			string minValue, maxValue;
+			minValue = maxValue = "";
+			bool isAppendingMinValue, isAppendingMaxValue;
+			foreach(char character; arg)
+			{
+				if(character == '=')
+				{
+					isAppendingMinValue = true;
+					continue;
+				}
+				else if(character == ';')
+				{
+					isAppendingMinValue = false;
+					isAppendingMaxValue = true;
+					continue;
+				}	 					
+						if(isAppendingMinValue)
+				{
+					minValue ~= character;
+				}
+				else if(isAppendingMaxValue)
+				{
+					maxValue ~= character;
+				}
+			}
+			tokenizer = new RandomTextTokenizer(to!size_t(minValue), to!size_t(maxValue));
+		}
+	}
+
 	if(args.length <= 1)
 	{	
-		 input = ReadInputFromConsole();
+		input = ReadInputFromConsole();
 	}
 	else
 	{
-		foreach(string arg; args)
-		{
-			if(arg.startsWith(Arguments.ReadFileName))
-			{
-				 input = cast(WGString)read((getcwd() ~ '/' ~ arg[Arguments.ReadFileName.length..$])); 
-			}
-			
-			else if(arg.startsWith(Arguments.TokenSize))
-			{
-				tokenSize = to!(size_t)(arg[Arguments.TokenSize.length..$]);
-			}
-			
-			else if(arg.startsWith(Arguments.TokensGenerate))
-			{
-				tokensCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
-			}
-					
-			else if(arg.startsWith(Arguments.TokensNext))
-			{
-				nextTokens = to!(size_t)(arg[Arguments.TokenSize.length..$]);
-			}
-
-			else if(arg.startsWith(Arguments.TokensRandomChance))
-			{
-				randomTokenChance = to!(ubyte)(arg[Arguments.TokenSize.length..$]);
-			}
-			else if(arg.startsWith(Arguments.FunRecreationsCount))
-			{
-				funRecreationsCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
-			}
-			if(arg.startsWith(Arguments.TokenRandomSizes))
-			{
-				string minValue, maxValue;
-				minValue = maxValue = "";
-				bool isAppendingMinValue, isAppendingMaxValue;
-				foreach(char character; arg)
-				{
-					if(character == '=')
-					{
-						isAppendingMinValue = true;
-						continue;
-					}
-					else if(character == ';')
-					{
-						isAppendingMinValue = false;
-						isAppendingMaxValue = true;
-						continue;
-					}	 					
-
-					if(isAppendingMinValue)
-					{
-						minValue ~= character;
-					}
-					else if(isAppendingMaxValue)
-					{
-						maxValue ~= character;
-					}
-				}
-				tokenizer = new RandomTextTokenizer(to!size_t(minValue), to!size_t(maxValue));
-			}
-		}
+		input = cast(WGString)read(filename); 
 	}
 
 	Token[] tokens = tokenizer.Tokenize(input, tokenSize);
