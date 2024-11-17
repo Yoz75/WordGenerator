@@ -1,8 +1,9 @@
 
 import std.stdio;
 import std.algorithm;
-import std.file : read, getcwd;
+import std.file : readText, getcwd;
 import std.conv : to;
+import core.sys.windows.windows;
 import generator.itexttokenizer;
 import generator.texttokenizer;
 import generator.randomtexttokenizer;
@@ -11,17 +12,12 @@ import generator.token;
 import generator.textgenerator;
 import generator.wgstring;
 
-extern(Windows)
-{
-	bool SetConsoleOutputCP(uint wCodePageID);
-}
-
 final abstract class Arguments
 {
 static:
 	public immutable string ReadFileName = "source=";
 	public immutable string TokenSize = "ts=";
-	public immutable string TokenRandomSizes = "trs=";
+	//public immutable string TokenRandomSizes = "trs=";
 	public immutable string TokensGenerate = "tg=";
 	public immutable string TokensNext = "tn=";
 	public immutable string TokensRandomChance = "tr=";
@@ -30,12 +26,13 @@ static:
 
 WGString ReadInputFromConsole()
 {
-	return readln!WGString();
+	return to!dstring(readln());
 }
 
 void main(string[] args)
 {
 	SetConsoleOutputCP(65001);
+	SetConsoleCP(65001);
 
 	ITextTokenizer tokenizer = new TextTokenizer();
 	size_t tokenSize = 5;
@@ -79,7 +76,7 @@ void main(string[] args)
 		{
 			funRecreationsCount = to!(size_t)(arg[Arguments.TokenSize.length..$]);
 		}
-		if(arg.startsWith(Arguments.TokenRandomSizes))
+		/*if(arg.startsWith(Arguments.TokenRandomSizes))
 		{
 			string minValue, maxValue;
 			minValue = maxValue = "";
@@ -107,16 +104,17 @@ void main(string[] args)
 				}
 			}
 			tokenizer = new RandomTextTokenizer(to!size_t(minValue), to!size_t(maxValue));
-		}
+		}  */
 	}
 
-	if(args.length <= 1)
+
+	if(!isShallReadFile)
 	{	
 		input = ReadInputFromConsole();
 	}
 	else
 	{
-		input = cast(WGString)read(filename); 
+		input = to!WGString(readText(filename)); 
 	}
 
 	Token[] tokens = tokenizer.Tokenize(input, tokenSize);

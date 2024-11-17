@@ -7,7 +7,7 @@ import std.random;
 
 class RandomTextTokenizer : ITextTokenizer
 {
-	private size_t MinLength, MaxLength;
+	private const size_t MinLength, MaxLength;
 
 	public this(size_t minLength, size_t maxLength)
 	{
@@ -21,41 +21,51 @@ class RandomTextTokenizer : ITextTokenizer
 
 	public Token[] Tokenize(WGString input, size_t tokenValueSize)
 	{
-		Token[WGString] tokens = new Token[WGString];
-		Token[] resultTokens;
+        //TODO: fix RangeError
+		Token[WGString] tokensDict = new Token[WGString];
+        Token[] allTokens;
 
-		size_t thisTokenSize;
-		size_t firstTokenSize;
+        size_t i = 0;
+        while (i < input.length)
+        {
+            // Генерируем случайную длину токена в диапазоне [minValue, maxValue]
+            tokenValueSize = uniform(MinLength, MaxLength+ 1);
 
-		firstTokenSize = thisTokenSize = uniform(MinLength, MaxLength);
+            // Проверяем, чтобы токен помещался в оставшуюся часть строки
+            if (i + tokenValueSize > input.length)
+                break;
 
-		for (size_t i  = 0; i  < input.length; i += thisTokenSize)
-		{
-			WGString tokenValue = input[i.. (i + thisTokenSize)];
+            WGString tokenValue = input[i .. (i + tokenValueSize)];
 
-			Token token;
-
-			if (tokens.get(tokenValue, null) !is null) 
+            Token token;
+            if (tokensDict.get(tokenValue, null) !is null)
             {
-                token = tokens[tokenValue];
+                token = tokensDict[tokenValue];
             }
-            else 
+            else
             {
                 token = new Token(tokenValue);
-                tokens[tokenValue] = token;
-            }		
+                tokensDict[tokenValue] = token;
+            }
 
-			resultTokens ~= token;
+            allTokens ~= token;
 
-            if (i >= firstTokenSize) 
+            if (i >= tokenValueSize)
             {
-                WGString prevTokenValue = input[(i - thisTokenSize)..i];
-                auto prevToken = tokens[prevTokenValue];
+                WGString prevTokenValue = input[i - tokenValueSize .. i];
+                auto prevToken = tokensDict[prevTokenValue];
                 prevToken.AddNextToken(token);
             }
-		}	
-		
-		thisTokenSize = uniform(MinLength, MaxLength);
-		return resultTokens;
+
+            // Переходим к следующему токену
+            i += tokenValueSize;
+        }
+
+        if (allTokens.length > 0)
+        {
+            allTokens[$ - 1].NextTokens = null;
+        }
+
+        return allTokens;
 	}
 }

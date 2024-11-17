@@ -1,3 +1,3 @@
 module generator.wgstring;
 	
-alias WGString = string;
+alias WGString = dstring;
