@@ -1,5 +1,7 @@
 # How to use:
 
+!!WARNING!! Cyrillic (and maby other) script DOESN`T WORK IN OLD WINDOWS CONSOLE, use new terminal instead 
+
 **Remember: as more text you give as input, as good result you will get**
 
 You can simply run .exe file and write text without other options:
