@@ -17,8 +17,12 @@ As more text you give as input, as more realistic result will be (source.txt is 
 
 WordGenerator has this console arguments:<br>
 source={file with extension}- read text from file.<br>
-tg={number} - generate x tokens (tokens != symbols)<br>
-ts={number} - set token size to x symbols (tg=100 ts=2 will generate 200 symbols. Less values makes strange result, but too big values just copy parts of text)<br>
-tn={number} - set next tokens size to x tokens (less values gives repeating values like abrbrbrbbrbrbrbrbrbrbr...)<br>
-tr={number 0..100} - set the chance of random next token (0 - no random, 99 - all random)<br>
-fr={number} - generate text and use it again x times (uses generated text as input)
+### tg={number} - generate x tokens (tokens != symbols)<br>
+### ts={number} - set token size to x symbols (tg=100 ts=2 will generate 200 symbols)<br>
+Small token size often create new words:<br>
+![изображение](https://github.com/user-attachments/assets/1a173bfb-0b67-4bb9-ab12-bd5951cb9953)
+Greater token size copies part of text:<br>
+![изображение](https://github.com/user-attachments/assets/b8f9a94e-977a-48cc-a5a1-4418da46c534)<br>
+### tn={number} - set next tokens size to x tokens (less values gives repeating values like abrbrbrbbrbrbrbrbrbrbr...)<br>
+### tr={number 0..100} - set the chance of random next token (0 - no random, 99 - all random)<br>
+### fr={number} - generate text and use it again x times (uses generated text as input)
