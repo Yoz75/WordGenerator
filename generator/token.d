@@ -6,6 +6,7 @@ class Token
 {
 	public WGString Value;
 	public Token[] NextTokens;
+	public Token[] SubsequentTokens;
 
 	public this(WGString value)
 	{

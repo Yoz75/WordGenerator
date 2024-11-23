@@ -17,7 +17,7 @@ class TextGenerator
         }
         return false;
     }
-    void pickRandom(ref Token token, Token[] sourceArray)
+    void PickRandom(ref Token token, Token[] sourceArray)
     {
         do
         {
@@ -33,7 +33,7 @@ class TextGenerator
         {
             if(IsBadToken(thisToken) ||  uniform(0, 100) < settings.RandomNextTokenChance)
             {
-                pickRandom(thisToken, settings.Tokens);
+                PickRandom(thisToken, settings.Tokens);
             }
                                                                                         
             result ~= thisToken.Value;
