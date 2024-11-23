@@ -24,11 +24,21 @@ class TextGenerator
             token = sourceArray[uniform(0, sourceArray.length)];
         } while(IsBadToken(token));
     }
+
+    Token GetNextToken(Token token, size_t nextTokensCount)
+	{
+        size_t nextTokenIndex;
+		nextTokenIndex = uniform(0, nextTokensCount);
+		if(nextTokenIndex >= token.NextTokens.length)
+		{
+			nextTokenIndex = token.NextTokens.length - 1;
+		}
+        return token.NextTokens[nextTokenIndex];
+	}
     public WGString Generate(GeneratorSettings settings)
     {
         WGString result;				 
         Token thisToken;
-        size_t nextTokenIndex;
         for (size_t i = 0; i < settings.TokensGenerateCount; i++)
         {
             if(IsBadToken(thisToken) ||  uniform(0, 100) < settings.RandomNextTokenChance)
@@ -37,13 +47,8 @@ class TextGenerator
             }
                                                                                         
             result ~= thisToken.Value;
-            nextTokenIndex = uniform(0, settings.NextTokensCount);
-            if(nextTokenIndex >= thisToken.NextTokens.length)
-            {
-                nextTokenIndex = thisToken.NextTokens.length - 1;
-            }
 
-            thisToken = thisToken.NextTokens[nextTokenIndex];
+		thisToken = GetNextToken(thisToken, settings.NextTokensCount);
         }
         return result;
     }
