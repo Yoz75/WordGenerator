@@ -24,4 +24,16 @@ class Token
 		NextTokens ~= token;
 	}
 
+	public void AddSubsequentToken(Token token)
+	{
+		foreach (ref next; SubsequentTokens) 
+		{
+            if (next.Value == token.Value) 
+			{
+                return; // Токен уже существует в SubsequentTokens
+            }
+        }
+		SubsequentTokens ~= token;
+	}
+
 }

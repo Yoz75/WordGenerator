@@ -9,28 +9,42 @@ import core.time : dur;
 
 class TextGenerator
 {
-	public WGString Generate(GeneratorSettings settings)
-	{
-		WGString result;				 
-		Token thisToken;
-		size_t nextTokenIndex;
-		for (size_t i = 0; i < settings.TokensGenerateCount; i++)
-		{
-			while(!thisToken || !thisToken.NextTokens || uniform(0, 100) <= settings.RandomNextTokenChance)
-			{			
-				thisToken = settings.Tokens[uniform(0, settings.Tokens.length)];
-			}
+    bool IsBadToken(Token token)
+    {
+        if(!token || !token.NextTokens)
+        {
+            return true;
+        }
+        return false;
+    }
+    void pickRandom(ref Token token, Token[] sourceArray)
+    {
+        do
+        {
+            token = sourceArray[uniform(0, sourceArray.length)];
+        } while(IsBadToken(token));
+    }
+    public WGString Generate(GeneratorSettings settings)
+    {
+        WGString result;				 
+        Token thisToken;
+        size_t nextTokenIndex;
+        for (size_t i = 0; i < settings.TokensGenerateCount; i++)
+        {
+            if(IsBadToken(thisToken) ||  uniform(0, 100) < settings.RandomNextTokenChance)
+            {
+                pickRandom(thisToken, settings.Tokens);
+            }
+                                                                                        
+            result ~= thisToken.Value;
+            nextTokenIndex = uniform(0, settings.NextTokensCount);
+            if(nextTokenIndex >= thisToken.NextTokens.length)
+            {
+                nextTokenIndex = thisToken.NextTokens.length - 1;
+            }
 
-			result ~= thisToken.Value;
-
-			nextTokenIndex = uniform(0, settings.NextTokensCount);
-			if(nextTokenIndex >= thisToken.NextTokens.length)
-			{
-				nextTokenIndex = thisToken.NextTokens.length - 1;
-			}
-
-			thisToken = thisToken.NextTokens[nextTokenIndex];
-		}
-		return result;
-	}
+            thisToken = thisToken.NextTokens[nextTokenIndex];
+        }
+        return result;
+    }
 }
