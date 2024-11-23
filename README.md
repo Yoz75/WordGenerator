@@ -10,6 +10,9 @@ You can simply run .exe file and write text without other options:
 Or you can use app arguments:
 ![Снимок экрана 2024-09-06 220849](https://github.com/user-attachments/assets/0dd16585-7236-4819-942c-1530834134c4)
 
+As more text you give as input, as more realistic result will be (source.txt is 182kb size): 
+![изображение](https://github.com/user-attachments/assets/f9e1484d-925a-4fdd-9000-3e4c2523ff00)
+
 ## Arguments 
 
 WordGenerator has this console arguments:<br>
