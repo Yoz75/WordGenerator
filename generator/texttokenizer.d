@@ -19,7 +19,7 @@ class TextTokenizer : ITextTokenizer
 
         Token[] allTokens;
 
-        for (size_t i = 0; i <= input.length - tokenValueSize; i++) 
+        for (size_t i = 0; i <= input.length - tokenValueSize; i+= tokenValueSize) 
         {
             WGString tokenValue = input[i .. (i + tokenValueSize)];
         
